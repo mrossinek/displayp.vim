@@ -46,14 +46,21 @@ func! displayp#displayp()
     " force redraw to actually display labels!
     redraw
 
-    let id = 0  " label '0' is not actually used
-    while id > len(winids) || id <= 0
-        " while the entered id is not contained in the winids
-        let id = index(s:labels, nr2char(getchar()))
-    endwhile
-    call nvim_set_current_win(win_getid(id))
+    try
+        let id = 0  " label '0' is not actually used
+        while id > len(winids) || id <= 0
+            " while the entered id is not contained in the winids
+            let char = getchar()
+            if char == 27  " Escape key
+                break
+            endif
+            let id = index(s:labels, nr2char(char))
+        endwhile
+        call nvim_set_current_win(win_getid(id))
 
-    call displayp#close()
+    finally
+        call displayp#close()
+    endtry
 endfunc
 
 func! displayp#close()
