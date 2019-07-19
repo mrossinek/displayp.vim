@@ -4,19 +4,13 @@ func! displayp#print_label( winnr )
     let buf = nvim_create_buf(v:false, v:true)
     let lines = ['', '', '', '', '']
     let label = a:winnr
-    if label > 99 || label < 0
-        " only two-digit labels are supported
-        " (more than 99 visible windows are rather unlikely anyways)
-        echoerr 'More than 99 visible windows cannot be labeled!'
+    if label > 34 || label < 0
+        echoerr 'The maximum number of windows to be labeled is limited by 34.'
         return -1
     endif
-    while label > 0
-        let digit = label % 10
-        let label = label / 10
-        for idx in [0, 1, 2, 3, 4]
-            let lines[idx] = join([s:number_matrix[digit][idx], lines[idx]], ' ')
-        endfor
-    endwhile
+    for idx in range(5)
+        let lines[idx] = join([s:number_matrix[label][idx], lines[idx]], ' ')
+    endfor
 
     call nvim_buf_set_lines(buf, 0, -1, v:false, lines)
     return buf
@@ -40,10 +34,26 @@ func! displayp#label_window( winid )
     endif
 endfunc
 
-func! displayp#label_windows()
-    for winid in gettabinfo()[0]['windows']
+func! displayp#label_windows( winids )
+    for winid in a:winids
         call displayp#label_window(winid)
     endfor
+endfunc
+
+func! displayp#displayp()
+    let winids = gettabinfo()[0]['windows']
+    call displayp#label_windows(winids)
+    " force redraw to actually display labels!
+    redraw
+
+    let id = 0  " label '0' is not actually used
+    while id > len(winids) || id <= 0
+        " while the entered id is not contained in the winids
+        let id = index(s:labels, nr2char(getchar()))
+    endwhile
+    call nvim_set_current_win(win_getid(id))
+
+    call displayp#close()
 endfunc
 
 func! displayp#close()
@@ -53,6 +63,7 @@ func! displayp#close()
     endwhile
 endfunc
 
+let s:labels = map(range(0, 9), 'string(v:val)') + map(range(97, 122), 'nr2char(v:val)')
 let s:number_matrix = [
             \ ['█████',
             \  '█   █',
@@ -112,5 +123,161 @@ let s:number_matrix = [
             \  '█   █',
             \  '█████',
             \  '    █',
-            \  '█████']
+            \  '█████'],
+            \
+            \ ['█████',
+            \  '█   █',
+            \  '█████',
+            \  '█   █',
+            \  '█   █'],
+            \
+            \ ['████ ',
+            \  '█   █',
+            \  '█████',
+            \  '█   █',
+            \  '████ '],
+            \
+            \ ['█████',
+            \  '█    ',
+            \  '█    ',
+            \  '█    ',
+            \  '█████'],
+            \
+            \ ['████ ',
+            \  '█   █',
+            \  '█   █',
+            \  '█   █',
+            \  '████ '],
+            \
+            \ ['█████',
+            \  '█    ',
+            \  '█████',
+            \  '█    ',
+            \  '█████'],
+            \
+            \ ['█████',
+            \  '█    ',
+            \  '█████',
+            \  '█    ',
+            \  '█    '],
+            \
+            \ ['█████',
+            \  '█    ',
+            \  '█  ██',
+            \  '█   █',
+            \  '█████'],
+            \
+            \ ['█   █',
+            \  '█   █',
+            \  '█████',
+            \  '█   █',
+            \  '█   █'],
+            \
+            \ [' ███ ',
+            \  '  █  ',
+            \  '  █  ',
+            \  '  █  ',
+            \  ' ███ '],
+            \
+            \ ['█████',
+            \  '  █  ',
+            \  '  █  ',
+            \  '  █  ',
+            \  '███  '],
+            \
+            \ ['█   █',
+            \  '█  █ ',
+            \  '███  ',
+            \  '█  █ ',
+            \  '█   █'],
+            \
+            \ ['█    ',
+            \  '█    ',
+            \  '█    ',
+            \  '█    ',
+            \  '█████'],
+            \
+            \ ['     ',
+            \  ' █ █ ',
+            \  '█ █ █',
+            \  '█   █',
+            \  '     '],
+            \
+            \ ['     ',
+            \  '██  █',
+            \  '█ █ █',
+            \  '█  ██',
+            \  '     '],
+            \
+            \ [' ███ ',
+            \  '█   █',
+            \  '█   █',
+            \  '█   █',
+            \  ' ███ '],
+            \
+            \ ['████ ',
+            \  '█   █',
+            \  '████ ',
+            \  '█    ',
+            \  '█    '],
+            \
+            \ ['████ ',
+            \  '█   █',
+            \  '████ ',
+            \  '█  █ ',
+            \  '█   █'],
+            \
+            \ [' ███ ',
+            \  '█   █',
+            \  '█   █',
+            \  '█  █ ',
+            \  ' ██ █'],
+            \
+            \ ['█████',
+            \  '█    ',
+            \  '█████',
+            \  '    █',
+            \  '█████'],
+            \
+            \ ['█████',
+            \  '  █  ',
+            \  '  █  ',
+            \  '  █  ',
+            \  '  █  '],
+            \
+            \ ['█   █',
+            \  '█   █',
+            \  '█   █',
+            \  '█   █',
+            \  '█████'],
+            \
+            \ ['     ',
+            \  '█   █',
+            \  ' █ █ ',
+            \  '  █  ',
+            \  '     '],
+            \
+            \ ['     ',
+            \  '█   █',
+            \  '█ █ █',
+            \  ' █ █ ',
+            \  '     '],
+            \
+            \ ['█   █',
+            \  ' █ █ ',
+            \  '  █  ',
+            \  ' █ █ ',
+            \  '█   █'],
+            \
+            \ ['█   █',
+            \  '█   █',
+            \  ' █ █ ',
+            \  '  █  ',
+            \  '  █  '],
+            \
+            \ ['█████',
+            \  '    █',
+            \  ' ███ ',
+            \  '█    ',
+            \  '█████'],
             \ ]
