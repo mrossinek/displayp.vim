@@ -1,0 +1,9 @@
+:Displayp	displayp.txt	/*:Displayp*
+<leader>d	displayp.txt	/*<leader>d*
+displayp	displayp.txt	/*displayp*
+displayp-usage	displayp.txt	/*displayp-usage*
+displayp.txt	displayp.txt	/*displayp.txt*
+g:displayp#loaded	displayp.txt	/*g:displayp#loaded*
+g:displayp#paddingNS	displayp.txt	/*g:displayp#paddingNS*
+g:displayp#paddingWE	displayp.txt	/*g:displayp#paddingWE*
+verdict-configuration	displayp.txt	/*verdict-configuration*

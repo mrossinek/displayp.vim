@@ -1,0 +1,40 @@
+*displayp.txt*  Plugin which implements the displayp command.
+
+Author:  Max Rossmannek
+License: MIT
+
+==============================================================================
+INTRODUCTION                                     *displayp*
+
+|displayp| is a plugin which implements a command that mimics tmux's displayp
+command. It labels all visible windows on the current tab page and awaits an
+input of the user to pick a label, of the window which should be selected
+next.
+
+Note: This plugin requires Neovim 0.4.0+. At the time of writing this is the
+unstable release but it provides the required floating windows. See also
+|api-floatwin|.
+
+==============================================================================
+USAGE                                            *displayp-usage*
+
+By default, the mapping *<leader>d* and the command *:Displayp* are created
+when the plugin is initially loaded. Either one of these can be used to
+trigger the command.
+
+==============================================================================
+CONFIGURATION                                    *verdict-configuration*
+
+*g:displayp#loaded*                          `Default: 0`
+Set this boolean to 1 in order to disable the plugin.
+
+*g:displayp#paddingNS*                      `Default: 2`
+This value defines the number of empty lines that are used to pad the top and
+bottom of the label window.
+
+*g:displayp#paddingWE*                      `Default: 4`
+This value defines the number of whitespaces that are used to pad the left and
+right of the label window.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
