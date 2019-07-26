@@ -23,7 +23,7 @@ when the plugin is initially loaded. Either one of these can be used to
 trigger the command.
 
 ==============================================================================
-CONFIGURATION                                    *verdict-configuration*
+CONFIGURATION                                    *displayp-configuration*
 
 *g:displayp#loaded*                          `Default: 0`
 Set this boolean to 1 in order to disable the plugin.
@@ -35,6 +35,16 @@ bottom of the label window.
 *g:displayp#paddingWE*                      `Default: 4`
 This value defines the number of whitespaces that are used to pad the left and
 right of the label window.
+
+                                                 *displayp-highlighting*
+|displayp| uses two auxiliary highlighting groups in order to color the window
+labels: *DisplaypCurrent* and *DisplaypUncommon*
+They default to the colors `Red` and `Blue`, respectively.
+This can be overwritten by placing these lines in your |config| file:
+>
+    highlight DisplaypCurrent ctermfg=<color of choice>
+    highlight DisplaypUncommon ctermfg=<color of choice>
+<
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:

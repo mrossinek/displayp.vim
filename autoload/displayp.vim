@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 if get(s:, 'loaded')
     finish
 endif
@@ -14,6 +16,7 @@ let s:labels = map(range(0, 9), 'string(v:val)') + map(range(97, 122), 'nr2char(
 let s:label_windows = []
 
 func! displayp#displayp()
+    let s:current_win = nvim_get_current_win()
     let winids = gettabinfo()[0]['windows']
     call s:label_windows(winids)
     " force redraw to actually display labels!
@@ -33,6 +36,7 @@ func! displayp#displayp()
 
     finally
         call s:close()
+        unlet s:current_win
     endtry
 endfunc
 
@@ -59,6 +63,11 @@ func! s:label_window( winid )
 
     let buf = s:print_label(win_id2win(a:winid))
     if buf > 0
+        if a:winid ==# s:current_win
+            call nvim_buf_set_option(buf, 'filetype', 'displayp_current')
+        else
+            call nvim_buf_set_option(buf, 'filetype', 'displayp_uncommon')
+        endif
         call add(s:label_windows, call('nvim_open_win', [buf, v:false, config]))
     endif
 endfunc
