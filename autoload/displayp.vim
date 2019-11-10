@@ -69,6 +69,7 @@ func! s:label_window( winid )
             call nvim_buf_set_option(buf, 'filetype', 'displayp_uncommon')
         endif
         call add(s:label_windows, call('nvim_open_win', [buf, v:false, config]))
+        call nvim_win_set_option(s:label_windows[-1], 'foldenable', v:false)
     endif
 endfunc
 
