@@ -6,5 +6,6 @@ endif
 
 syntax match DisplaypUncommon '█'
 highlight default DisplaypUncommon ctermfg=Blue
+highlight clear ExtraWhitespace
 
 let b:current_syntax = 'displayp_uncommon'

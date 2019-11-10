@@ -6,5 +6,6 @@ endif
 
 syntax match DisplaypCurrent '█'
 highlight default DisplaypCurrent ctermfg=Red
+highlight clear ExtraWhitespace
 
 let b:current_syntax = 'displayp_current'
