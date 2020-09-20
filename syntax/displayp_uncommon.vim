@@ -5,7 +5,7 @@ if exists('b:current_syntax')
 endif
 
 syntax match DisplaypUncommon '█'
-highlight default DisplaypUncommon ctermfg=Blue
+highlight default DisplaypUncommon ctermfg=Blue guifg=Blue
 highlight clear ExtraWhitespace
 
 let b:current_syntax = 'displayp_uncommon'
